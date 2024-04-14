@@ -46,19 +46,38 @@ qemu-system-x86_64 -machine q35 -m 1024 -smp cpus=2 -cpu qemu64 \
 
 8. Login with username ``root`` (no password)
 
-9. Setup network (press Enter to use defaults):
-```bash
-localhost:~# setup-interfaces
- Available interfaces are: eth0.
- Enter '?' for help on bridges, bonding and vlans.
- Which one do you want to initialize? (or '?' or 'done') [eth0]
- Ip address for eth0? (or 'dhcp', 'none', '?') [dhcp]
- Do you want to do any manual network configuration? [no]
+9. Setup network (press Enter to use
 ```
 ```bash
 localhost:~# ifup eth0
 ```
+if that not working 
+```bash
+localhost:~#cd /etc/network
+```
+write the interfaces file
+and put this content
+```bash
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
 
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+auto eth0
+iface eth0 inet dhcp
+
+```
+This can be done using nano, but here is not installed so 
+just use #echo command as
+copy the content, type echo "...pasteall content here..." > interfaces
+
+The test by enable the interface as 
+```bash
+ifup eth0
+```
 10. Create an answerfile to speed up installation:
 ```bash
 wget https://gist.githubusercontent.com/oofnikj/e79aef095cd08756f7f26ed244355d62/raw/answerfile
